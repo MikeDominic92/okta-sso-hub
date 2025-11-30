@@ -1,0 +1,99 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test-python:
+    name: Test Python Code
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-asyncio PyJWT
+        pip install -r automation/python/requirements.txt
+
+    - name: Run Python tests
+      run: |
+        pytest tests/ -v
+
+  test-node:
+    name: Test Node.js Code
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install Node.js dependencies
+      working-directory: apps/node-api
+      run: npm install
+
+    - name: Run Node.js linting
+      working-directory: apps/node-api
+      run: npx eslint . --ext .js || true
+
+  test-react:
+    name: Test React App
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install React dependencies
+      working-directory: apps/react-oidc-spa
+      run: npm install
+
+    - name: Build React app
+      working-directory: apps/react-oidc-spa
+      run: npm run build
+
+  lint-markdown:
+    name: Lint Markdown Files
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Lint markdown files
+      uses: avto-dev/markdown-lint@v1
+      with:
+        args: '**/*.md'
+        ignore: 'node_modules'
+      continue-on-error: true
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        severity: 'CRITICAL,HIGH'
+      continue-on-error: true

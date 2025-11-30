@@ -1,0 +1,84 @@
+{
+  "name": "New Hire Onboarding",
+  "description": "Automated workflow for onboarding new employees",
+  "trigger": {
+    "type": "user_created",
+    "filters": {
+      "status": "STAGED"
+    }
+  },
+  "steps": [
+    {
+      "id": "1",
+      "name": "Activate User",
+      "action": "okta.users.activate",
+      "parameters": {
+        "userId": "{{event.user.id}}",
+        "sendEmail": true
+      }
+    },
+    {
+      "id": "2",
+      "name": "Assign to Default Group",
+      "action": "okta.groups.addMember",
+      "parameters": {
+        "groupId": "{{config.defaultGroupId}}",
+        "userId": "{{event.user.id}}"
+      }
+    },
+    {
+      "id": "3",
+      "name": "Assign Department Group",
+      "action": "okta.groups.addMember",
+      "parameters": {
+        "groupId": "{{user.profile.department}}_Group",
+        "userId": "{{event.user.id}}"
+      },
+      "conditions": {
+        "user.profile.department": {
+          "exists": true
+        }
+      }
+    },
+    {
+      "id": "4",
+      "name": "Assign Applications",
+      "action": "okta.apps.assignUser",
+      "parameters": {
+        "appIds": [
+          "{{config.defaultAppIds}}"
+        ],
+        "userId": "{{event.user.id}}"
+      }
+    },
+    {
+      "id": "5",
+      "name": "Send Welcome Email",
+      "action": "email.send",
+      "parameters": {
+        "to": "{{event.user.profile.email}}",
+        "subject": "Welcome to the Team!",
+        "template": "new_hire_welcome",
+        "variables": {
+          "firstName": "{{event.user.profile.firstName}}",
+          "manager": "{{event.user.profile.manager}}"
+        }
+      }
+    },
+    {
+      "id": "6",
+      "name": "Notify IT Team",
+      "action": "email.send",
+      "parameters": {
+        "to": "it-team@example.com",
+        "subject": "New User Created: {{event.user.profile.email}}",
+        "body": "User {{event.user.profile.firstName}} {{event.user.profile.lastName}} has been created and activated."
+      }
+    }
+  ],
+  "errorHandling": {
+    "onFailure": "notify_admin",
+    "retryAttempts": 3,
+    "retryDelay": 300
+  }
+}

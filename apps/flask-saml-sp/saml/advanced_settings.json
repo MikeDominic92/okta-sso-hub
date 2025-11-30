@@ -1,0 +1,39 @@
+{
+  "security": {
+    "nameIdEncrypted": false,
+    "authnRequestsSigned": false,
+    "logoutRequestSigned": false,
+    "logoutResponseSigned": false,
+    "signMetadata": false,
+    "wantMessagesSigned": false,
+    "wantAssertionsSigned": true,
+    "wantAssertionsEncrypted": false,
+    "wantNameId": true,
+    "wantNameIdEncrypted": false,
+    "wantAttributeStatement": true,
+    "requestedAuthnContext": true,
+    "requestedAuthnContextComparison": "exact",
+    "metadataValidUntil": "",
+    "metadataCacheDuration": "",
+    "signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+    "digestAlgorithm": "http://www.w3.org/2001/04/xmlenc#sha256",
+    "rejectUnsolicitedResponsesWithInResponseTo": false
+  },
+  "contactPerson": {
+    "technical": {
+      "givenName": "Technical Support",
+      "emailAddress": "tech@example.com"
+    },
+    "support": {
+      "givenName": "Support Team",
+      "emailAddress": "support@example.com"
+    }
+  },
+  "organization": {
+    "en-US": {
+      "name": "Okta SSO Hub",
+      "displayname": "Okta SSO Hub - Flask SAML SP",
+      "url": "https://github.com/MikeDominic92/okta-sso-hub"
+    }
+  }
+}

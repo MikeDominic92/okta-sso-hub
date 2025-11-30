@@ -1,0 +1,25 @@
+{
+  "name": "node-api",
+  "version": "1.0.0",
+  "description": "Protected Node.js API with Okta JWT verification",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["okta", "jwt", "api", "oauth2", "oidc"],
+  "author": "Michael Dominic",
+  "license": "MIT",
+  "dependencies": {
+    "@okta/jwt-verifier": "^3.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

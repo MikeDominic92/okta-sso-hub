@@ -1,0 +1,95 @@
+{
+  "name": "Employee Offboarding",
+  "description": "Automated workflow for offboarding employees",
+  "trigger": {
+    "type": "user_deactivation_request",
+    "source": "manual_or_api"
+  },
+  "steps": [
+    {
+      "id": "1",
+      "name": "Revoke Active Sessions",
+      "action": "okta.sessions.clear",
+      "parameters": {
+        "userId": "{{event.user.id}}"
+      }
+    },
+    {
+      "id": "2",
+      "name": "Remove from All Groups",
+      "action": "okta.groups.removeMemberFromAll",
+      "parameters": {
+        "userId": "{{event.user.id}}"
+      }
+    },
+    {
+      "id": "3",
+      "name": "Unassign All Applications",
+      "action": "okta.apps.unassignUser",
+      "parameters": {
+        "userId": "{{event.user.id}}",
+        "allApps": true
+      }
+    },
+    {
+      "id": "4",
+      "name": "Reset MFA Factors",
+      "action": "okta.factors.resetAll",
+      "parameters": {
+        "userId": "{{event.user.id}}"
+      }
+    },
+    {
+      "id": "5",
+      "name": "Deactivate User",
+      "action": "okta.users.deactivate",
+      "parameters": {
+        "userId": "{{event.user.id}}",
+        "sendEmail": false
+      }
+    },
+    {
+      "id": "6",
+      "name": "Notify Manager",
+      "action": "email.send",
+      "parameters": {
+        "to": "{{event.user.profile.managerEmail}}",
+        "subject": "Employee Offboarding Complete: {{event.user.profile.email}}",
+        "template": "offboarding_complete",
+        "variables": {
+          "employeeName": "{{event.user.profile.firstName}} {{event.user.profile.lastName}}",
+          "offboardingDate": "{{event.timestamp}}"
+        }
+      }
+    },
+    {
+      "id": "7",
+      "name": "Notify IT Team",
+      "action": "email.send",
+      "parameters": {
+        "to": "it-team@example.com",
+        "subject": "Offboarding Complete: {{event.user.profile.email}}",
+        "body": "User {{event.user.profile.email}} has been deactivated and removed from all apps and groups."
+      }
+    },
+    {
+      "id": "8",
+      "name": "Archive User Data",
+      "action": "webhook.call",
+      "parameters": {
+        "url": "{{config.archiveWebhookUrl}}",
+        "method": "POST",
+        "body": {
+          "userId": "{{event.user.id}}",
+          "email": "{{event.user.profile.email}}",
+          "deactivatedAt": "{{event.timestamp}}"
+        }
+      }
+    }
+  ],
+  "errorHandling": {
+    "onFailure": "halt_and_notify",
+    "notifyEmail": "security-team@example.com",
+    "retryAttempts": 2
+  }
+}
