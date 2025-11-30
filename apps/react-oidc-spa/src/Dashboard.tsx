@@ -7,6 +7,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useOktaAuth } from '@okta/okta-react';
+import { useNavigate } from 'react-router-dom';
 import { apiConfig } from './config';
 
 interface UserInfo {
@@ -30,6 +31,7 @@ interface ApiData {
 
 const Dashboard: React.FC = () => {
   const { oktaAuth, authState } = useOktaAuth();
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [apiData, setApiData] = useState<ApiData | null>(null);
   const [apiLoading, setApiLoading] = useState(false);
@@ -137,9 +139,14 @@ const Dashboard: React.FC = () => {
             <h1 style={styles.title}>Dashboard</h1>
             <p style={styles.subtitle}>You are securely authenticated with Okta</p>
           </div>
-          <button style={styles.logoutButton} onClick={handleLogout}>
-            Logout
-          </button>
+          <div style={styles.headerButtons}>
+            <button style={styles.passkeysButton} onClick={() => navigate('/passkeys')}>
+              Manage Passkeys
+            </button>
+            <button style={styles.logoutButton} onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
         </div>
 
         {/* User Info Card */}
@@ -292,6 +299,12 @@ const Dashboard: React.FC = () => {
                 <span style={styles.statusSuccess}>✓ Enabled</span>
               </span>
             </div>
+            <div style={styles.statusItem}>
+              <span style={styles.statusLabel}>Passkey Authentication:</span>
+              <span style={styles.statusValue}>
+                <span style={styles.statusInfo}>Available</span>
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -328,6 +341,22 @@ const styles = {
     margin: '5px 0 0 0',
     fontSize: '16px',
     color: '#666666'
+  },
+  headerButtons: {
+    display: 'flex',
+    gap: '12px',
+    alignItems: 'center'
+  },
+  passkeysButton: {
+    padding: '12px 24px',
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#ffffff',
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    border: 'none',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    transition: 'transform 0.2s'
   },
   logoutButton: {
     padding: '12px 24px',
@@ -506,6 +535,10 @@ const styles = {
   },
   statusError: {
     color: '#dc3545',
+    fontWeight: '600' as const
+  },
+  statusInfo: {
+    color: '#667eea',
     fontWeight: '600' as const
   }
 };

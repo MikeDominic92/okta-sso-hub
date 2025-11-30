@@ -65,6 +65,7 @@ This project showcases enterprise-grade Single Sign-On (SSO) implementation usin
 ### Identity & Access Management
 - ✅ **SAML 2.0 Integration** - Enterprise SSO with Flask Service Provider
 - ✅ **OIDC/OAuth 2.0** - Modern authentication for React SPA
+- ✅ **Passkeys/FIDO2** - Passwordless authentication with WebAuthn
 - ✅ **JWT Validation** - Secure API access with token verification
 - ✅ **Multi-Factor Authentication** - Configurable MFA policies
 - ✅ **Session Management** - Token refresh and session handling
@@ -93,6 +94,39 @@ This project showcases enterprise-grade Single Sign-On (SSO) implementation usin
 | **Complexity** | Higher (XML, certificates) | Lower (REST, JSON) |
 | **Mobile Support** | Limited | Excellent |
 | **Example App** | `flask-saml-sp/` | `react-oidc-spa/`, `node-api/` |
+
+## Passkeys & Passwordless Authentication
+
+**NEW in 2025**: This project now includes FIDO2/WebAuthn passkey support for phishing-resistant, passwordless authentication.
+
+### What are Passkeys?
+
+Passkeys are a modern authentication method that replaces passwords with cryptographic keys stored on your device. They provide:
+
+- **Phishing-resistant authentication** - Cannot be stolen or used on fake websites
+- **Passwordless login** - No passwords to remember or manage
+- **Biometric convenience** - Use Touch ID, Face ID, or Windows Hello
+- **Security key support** - Works with YubiKey and other FIDO2 devices
+- **Industry standard** - Built on FIDO2/WebAuthn specifications
+
+### Features
+
+- ✅ WebAuthn credential registration and management
+- ✅ Browser compatibility detection (Chrome, Firefox, Safari, Edge)
+- ✅ Platform authenticator support (Touch ID, Windows Hello, Face ID)
+- ✅ Security key support (YubiKey, Titan Key, etc.)
+- ✅ Passkey management UI (create, view, delete)
+- ✅ Comprehensive documentation with implementation guide
+
+### Try It Out
+
+1. Navigate to the React OIDC SPA application
+2. Log in with your Okta credentials
+3. Click **"Manage Passkeys"** in the dashboard
+4. Register a new passkey using Touch ID, Windows Hello, or a security key
+5. View and manage your registered passkeys
+
+**See [docs/PASSKEYS.md](docs/PASSKEYS.md) for detailed implementation guide and Okta configuration.**
 
 ## Quick Start
 
@@ -237,6 +271,7 @@ Comprehensive guides in the `docs/` directory:
 - [Okta Initial Setup](docs/OKTA_SETUP.md) - Developer tenant configuration
 - [SAML Integration](docs/SAML_INTEGRATION.md) - Configure SAML app in Okta
 - [OIDC Integration](docs/OIDC_INTEGRATION.md) - Create OIDC application
+- [Passkeys/FIDO2](docs/PASSKEYS.md) - Passwordless authentication with WebAuthn
 - [SCIM Provisioning](docs/SCIM_PROVISIONING.md) - Automated user sync
 - [MFA Policies](docs/MFA_POLICIES.md) - Multi-factor authentication setup
 

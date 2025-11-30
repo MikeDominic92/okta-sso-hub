@@ -13,6 +13,7 @@ import oktaAuth from './OktaAuth';
 import Login from './Login';
 import Dashboard from './Dashboard';
 import SecureRoute from './SecureRoute';
+import Passkeys from './components/Passkeys';
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -46,9 +47,10 @@ const App: React.FC = () => {
         {/* Okta callback route - handles authorization code exchange */}
         <Route path="/login/callback" element={<LoginCallback />} />
 
-        {/* Protected route - Dashboard (requires authentication) */}
+        {/* Protected routes - Require authentication */}
         <Route path="/" element={<SecureRoute><Dashboard /></SecureRoute>} />
         <Route path="/dashboard" element={<SecureRoute><Dashboard /></SecureRoute>} />
+        <Route path="/passkeys" element={<SecureRoute><Passkeys /></SecureRoute>} />
       </Routes>
     </Security>
   );
