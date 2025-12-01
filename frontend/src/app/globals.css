@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-background: #09090B;
+  --color-foreground: #FAFAFA;
+
+  --color-obsidian-black: #09090B;
+  --color-dark-surface: #18181B;
+
+  --color-okta-blue: #007DC1;
+  --color-okta-blue-dim: rgba(0, 125, 193, 0.5);
+
+  --color-electric-cyan: #00D4FF;
+  --color-slate-gray: #94A3B8;
+  --color-ghost-white: #FAFAFA;
+
+  --color-success-green: #10B981;
+  --color-warning-amber: #F59E0B;
+  --color-error-red: #EF4444;
+
+  /* Fonts */
+  --font-inter: 'Inter', sans-serif;
+  --font-fira-code: 'Fira Code', monospace;
+
+  /* Shadows */
+  --shadow-cyan-glow: 0 0 15px rgba(0, 212, 255, 0.3), 0 0 5px rgba(0, 212, 255, 0.5);
+  --shadow-blue-glow: 0 0 15px rgba(0, 125, 193, 0.3), 0 0 5px rgba(0, 125, 193, 0.5);
+  --shadow-glass: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+
+  /* Animations */
+  --animate-pulse-cyan: pulse-cyan 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-flow: flow 20s linear infinite;
+
+  @keyframes pulse-cyan {
+
+    0%,
+    100% {
+      opacity: 1;
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+    }
+
+    50% {
+      opacity: .8;
+      box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
+    }
+  }
+
+  @keyframes flow {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+}
+
+/* Custom Utilities */
+@utility glass-panel {
+  @apply bg-dark-surface/60 backdrop-blur-md border border-white/5;
+}
+
+@utility cyan-border {
+  @apply border border-electric-cyan/30 shadow-cyan-glow;
+}
+
+/* Base Styles */
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-inter);
+  background-image: radial-gradient(circle at 50% 0%, #18181B 0%, #09090B 100%);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-inter);
+  letter-spacing: -0.02em;
+  font-weight: 800;
+}
+
+code,
+pre {
+  font-family: var(--font-fira-code);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09090B;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272A;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3F3F46;
+}

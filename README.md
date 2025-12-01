@@ -397,6 +397,26 @@ Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for gu
 
 This project is licensed under the MIT License - see [LICENSE](LICENSE) file for details.
 
+## Frontend Dashboard
+
+A modern React/Next.js frontend is available with an Okta Flow aesthetic:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend will open at `http://localhost:3000`
+
+**Frontend Screenshots:**
+
+| Dashboard | Application Catalog | Federation |
+|-----------|---------------------|------------|
+| ![Dashboard](docs/screenshots/okta_dashboard_1764620382675.png) | ![Apps](docs/screenshots/okta_apps_1764620414608.png) | ![Federation](docs/screenshots/okta_federation_1764620443193.png) |
+
+See [Frontend Walkthrough](docs/FRONTEND_WALKTHROUGH.md) for full documentation.
+
 ## Acknowledgments
 
 - [Okta Developer Documentation](https://developer.okta.com/docs/)
