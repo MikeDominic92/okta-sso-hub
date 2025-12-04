@@ -1,566 +1,609 @@
-# Okta SSO Hub
+<p align="center">
+  <img src="docs/screenshots/okta_dashboard_1764620382675.png" alt="Okta SSO Hub" width="800"/>
+</p>
 
-[![Node.js](https://img.shields.io/badge/Node.js-18.x-green.svg)](https://nodejs.org/)
-[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
-[![React](https://img.shields.io/badge/React-18.x-61dafb.svg)](https://reactjs.org/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Okta](https://img.shields.io/badge/Okta-Developer-00297a.svg)](https://developer.okta.com/)
+<h1 align="center">Okta SSO Hub</h1>
+<h3 align="center">Enterprise SSO Platform with Workflows Automation</h3>
 
-> A comprehensive IAM portfolio project demonstrating Okta integration with SAML 2.0, OIDC/OAuth 2.0, SCIM provisioning, and automated workflows.
+<p align="center">
+  <img src="https://img.shields.io/badge/Okta-Developer-00297a.svg" alt="Okta"/>
+  <img src="https://img.shields.io/badge/Node.js-18.x-green.svg" alt="Node.js"/>
+  <img src="https://img.shields.io/badge/Python-3.9+-blue.svg" alt="Python"/>
+  <img src="https://img.shields.io/badge/React-18.x-61dafb.svg" alt="React"/>
+  <img src="https://img.shields.io/badge/version-1.1.0-purple.svg" alt="Version"/>
+</p>
 
-**Certification Focus**: Okta Certified Professional/Administrator
+<p align="center">
+  <strong>Complete SSO implementation with SAML 2.0, OIDC/OAuth 2.0, SCIM provisioning, and Okta Workflows automation</strong>
+</p>
 
-## Table of Contents
+---
 
-- [Overview](#overview)
-- [Architecture](#architecture)
-- [Features](#features)
-- [SAML vs OIDC](#saml-vs-oidc)
-- [Quick Start](#quick-start)
-- [Applications](#applications)
-- [Automation](#automation)
-- [Documentation](#documentation)
-- [Security](#security)
-- [Contributing](#contributing)
-- [License](#license)
+## The Problem
 
-## Overview
+<table>
+<tr>
+<td width="50%">
 
-This project showcases enterprise-grade Single Sign-On (SSO) implementation using Okta as the Identity Provider (IdP). It includes three fully functional applications integrated via different authentication protocols, automated user provisioning, and policy management.
+### SSO Implementation is Complex
 
-### What You'll Learn
+Enterprise SSO challenges:
+- **Multiple protocols** (SAML vs OIDC) with different use cases
+- **Provisioning delays** from days to weeks
+- **Manual workflows** for access requests
+- **Protocol confusion** - when to use what?
 
-- Configure Okta SAML 2.0 applications
-- Implement OIDC with Authorization Code Flow + PKCE
-- Set up SCIM 2.0 for automated provisioning
-- Create MFA policies and authentication flows
-- Automate user lifecycle management via Okta API
-- Build secure SPAs and APIs with Okta integration
+Organizations struggle with:
+- Inconsistent authentication experiences
+- Slow user onboarding
+- No automated lifecycle management
+- Lack of hands-on protocol expertise
+
+</td>
+<td width="50%">
+
+### What SSO Teams Need
+
+Modern identity federation requires:
+- **Multi-protocol support** (SAML 2.0 + OIDC)
+- **Automated provisioning** (SCIM)
+- **Workflow automation** for lifecycle events
+- **Clear documentation** on protocol choices
+- **Working code examples** for each pattern
+- **Hands-on certification prep**
+
+**This hub demonstrates all of it.**
+
+</td>
+</tr>
+</table>
+
+---
+
+## The Solution: Okta SSO Hub
+
+<p align="center">
+  <img src="docs/screenshots/okta_apps_1764620414608.png" alt="Application Catalog" width="800"/>
+</p>
+
+Complete SSO implementation demonstrating enterprise patterns:
+
+| Capability | Technology | Outcome |
+|------------|------------|---------|
+| **SSO - SAML** | SAML 2.0 + Flask SP | Enterprise app integration |
+| **SSO - OIDC** | OAuth 2.0 + React SPA | Modern app authentication |
+| **Provisioning** | SCIM 2.0 | Automated user management |
+| **Automation** | Okta Workflows | Event-driven identity lifecycle |
+| **API Security** | OAuth 2.0 Tokens | Backend API protection |
+| **MFA** | Okta Verify | Strong authentication |
+
+---
+
+## Screenshots
+
+### Dashboard Views
+
+<table>
+<tr>
+<td align="center" width="33%">
+<img src="docs/screenshots/okta_dashboard_1764620382675.png" alt="Dashboard"/>
+<br/><strong>SSO Dashboard</strong>
+<br/>Okta Flow aesthetic
+</td>
+<td align="center" width="33%">
+<img src="docs/screenshots/okta_apps_1764620414608.png" alt="Apps"/>
+<br/><strong>Application Catalog</strong>
+<br/>SAML + OIDC apps
+</td>
+<td align="center" width="33%">
+<img src="docs/screenshots/okta_federation_1764620443193.png" alt="Federation"/>
+<br/><strong>Federation Overview</strong>
+<br/>Protocol comparison
+</td>
+</tr>
+</table>
+
+### Additional Views
+
+<table>
+<tr>
+<td align="center" width="50%">
+<img src="docs/screenshots/okta_security_1764620475111.png" alt="Security"/>
+<br/><strong>Security Policies</strong>
+<br/>MFA and access rules
+</td>
+<td align="center" width="50%">
+<img src="docs/screenshots/okta_provisioning_1764620505660.png" alt="Provisioning"/>
+<br/><strong>User Provisioning</strong>
+<br/>SCIM automation
+</td>
+</tr>
+</table>
+
+---
+
+## Why Okta Workflows? (v1.1)
+
+<table>
+<tr>
+<td width="60%">
+
+### The Integration Rationale
+
+Okta Workflows was chosen for v1.1 because:
+
+1. **Native Platform** - Built into Okta ecosystem
+2. **No-Code/Low-Code** - Accessible automation
+3. **Event-Driven** - Respond to identity events
+4. **Pre-Built Connectors** - 100+ integrations
+5. **Enterprise Adoption** - Standard for Okta customers
+
+### Skills Demonstrated
+
+- Okta Workflows API integration
+- Flow execution orchestration
+- Event-driven triggers
+- Async Python programming
+- Identity lifecycle automation
+
+</td>
+<td width="40%">
+
+### Before vs After
+
+| Metric | v1.0 | v1.1 |
+|--------|------|------|
+| Automation | Manual | **Workflows** |
+| Triggers | None | **Event-driven** |
+| Provisioning | Days | **Minutes** |
+| Lifecycle | Manual | **Automated** |
+
+### Workflow Triggers Supported
+
+- User created/activated
+- Group membership change
+- Application assignment
+- Password reset
+- MFA enrollment
+- Sign-on event
+
+</td>
+</tr>
+</table>
+
+---
+
+## SAML vs OIDC
+
+<table>
+<tr>
+<td width="50%">
+
+### SAML 2.0
+
+**Best for**:
+- Legacy enterprise applications
+- B2B federation
+- Complex attribute mapping
+- Established corporate apps
+
+**Characteristics**:
+- XML-based assertions
+- Browser-based flows
+- Mature enterprise standard
+- SP-initiated or IdP-initiated
+
+**In this project**: Flask SAML SP
+
+</td>
+<td width="50%">
+
+### OIDC / OAuth 2.0
+
+**Best for**:
+- Modern SPAs and mobile apps
+- API authentication
+- Microservices
+- Consumer applications
+
+**Characteristics**:
+- JSON-based tokens (JWT)
+- Mobile-friendly flows
+- Built on OAuth 2.0
+- Authorization + Authentication
+
+**In this project**: React OIDC SPA
+
+</td>
+</tr>
+</table>
+
+### Protocol Decision Flow
+
+```
+                    ┌────────────────────────┐
+                    │  New Application SSO   │
+                    └───────────┬────────────┘
+                                │
+                    ┌───────────▼────────────┐
+                    │  What type of app?     │
+                    └───────────┬────────────┘
+                                │
+           ┌────────────────────┼────────────────────┐
+           │                    │                    │
+    ┌──────▼──────┐      ┌──────▼──────┐      ┌──────▼──────┐
+    │   Legacy    │      │  Modern SPA │      │  Mobile     │
+    │   Enterprise│      │  or React   │      │   App       │
+    └──────┬──────┘      └──────┬──────┘      └──────┬──────┘
+           │                    │                    │
+    ┌──────▼──────┐      ┌──────▼──────┐      ┌──────▼──────┐
+    │  SAML 2.0   │      │ OIDC + PKCE │      │ OIDC + PKCE │
+    └─────────────┘      └─────────────┘      └─────────────┘
+```
+
+---
 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                         Okta (IdP)                              │
-│  - Universal Directory                                          │
-│  - Authentication Policies                                      │
-│  - MFA Enforcement                                              │
-│  - SCIM Provisioning                                            │
-└──────────────┬──────────────┬──────────────┬───────────────────┘
-               │              │              │
-        OIDC   │       SAML   │       API    │
-               │              │              │
-        ┌──────▼─────┐ ┌──────▼─────┐ ┌─────▼──────┐
-        │ React SPA  │ │ Flask App  │ │  Node API  │
-        │  (PKCE)    │ │   (SP)     │ │  (JWT)     │
-        └────────────┘ └────────────┘ └────────────┘
-               │              │              │
-        ┌──────▼──────────────▼──────────────▼───────┐
-        │         Backend Resources/Data             │
-        └────────────────────────────────────────────┘
+                                OKTA TENANT
+    ┌─────────────────────────────────────────────────────────────────┐
+    │                                                                  │
+    │  ┌────────────┐  ┌────────────┐  ┌────────────┐  ┌───────────┐ │
+    │  │ Universal  │  │   Sign-On  │  │    MFA     │  │ Workflows │ │
+    │  │ Directory  │  │  Policies  │  │  Policies  │  │  Engine   │ │
+    │  └────────────┘  └────────────┘  └────────────┘  └───────────┘ │
+    │                                                                  │
+    └─────────────────────────────┬───────────────────────────────────┘
+                                  │
+            ┌─────────────────────┼─────────────────────┐
+            │                     │                     │
+            ▼                     ▼                     ▼
+    ┌──────────────┐      ┌──────────────┐      ┌──────────────┐
+    │  SAML 2.0    │      │    OIDC      │      │  SCIM 2.0    │
+    │  Protocol    │      │   Protocol   │      │  Provisioning│
+    │              │      │              │      │              │
+    │ XML Assertion│      │ JWT Tokens   │      │ User Sync    │
+    │ SP-Initiated │      │ PKCE Flow    │      │ Group Sync   │
+    └──────┬───────┘      └──────┬───────┘      └──────┬───────┘
+           │                     │                     │
+           ▼                     ▼                     ▼
+    ┌──────────────┐      ┌──────────────┐      ┌──────────────┐
+    │ Flask SAML   │      │  React SPA   │      │   Node.js    │
+    │ Service      │      │  (OIDC)      │      │   SCIM API   │
+    │ Provider     │      │              │      │              │
+    │              │      │              │      │              │
+    │ Port: 5000   │      │ Port: 3000   │      │ Port: 8080   │
+    └──────────────┘      └──────────────┘      └──────────────┘
 ```
 
-## Features
+---
 
-### Identity & Access Management
-- ✅ **SAML 2.0 Integration** - Enterprise SSO with Flask Service Provider
-- ✅ **OIDC/OAuth 2.0** - Modern authentication for React SPA
-- ✅ **Passkeys/FIDO2** - Passwordless authentication with WebAuthn
-- ✅ **JWT Validation** - Secure API access with token verification
-- ✅ **Multi-Factor Authentication** - Configurable MFA policies
-- ✅ **Session Management** - Token refresh and session handling
+## Applications
 
-### Provisioning & Automation
-- ✅ **SCIM 2.0 Server** - Automated user provisioning
-- ✅ **Okta API Integration** - User/group management via SDK
-- ✅ **Bulk Operations** - CSV import and batch processing
-- ✅ **Lifecycle Workflows** - Onboarding/offboarding automation
+### 1. React OIDC SPA
 
-### Security & Compliance
-- ✅ **Authorization Code Flow with PKCE** - Secure OAuth flow for SPAs
-- ✅ **Scope-Based Authorization** - Fine-grained API access control
-- ✅ **Attribute-Based Access Control** - SAML attribute mapping
-- ✅ **Audit Logging** - Track authentication events
+Modern single-page application with PKCE flow.
 
-## SAML vs OIDC
+```javascript
+// OIDC Configuration
+const oktaConfig = {
+  issuer: 'https://your-org.okta.com/oauth2/default',
+  clientId: 'your-client-id',
+  redirectUri: 'http://localhost:3000/callback',
+  scopes: ['openid', 'profile', 'email'],
+  pkce: true
+};
+```
 
-| Feature | SAML 2.0 | OIDC/OAuth 2.0 |
-|---------|----------|----------------|
-| **Protocol** | XML-based | JSON/REST-based |
-| **Primary Use Case** | Enterprise SSO | Mobile & modern web apps |
-| **Token Format** | XML assertions | JWT (JSON Web Tokens) |
-| **Implementation** | Flask SAML SP | React with Okta SDK |
-| **Best For** | Legacy enterprise apps | APIs and SPAs |
-| **Complexity** | Higher (XML, certificates) | Lower (REST, JSON) |
-| **Mobile Support** | Limited | Excellent |
-| **Example App** | `flask-saml-sp/` | `react-oidc-spa/`, `node-api/` |
+**Features**:
+- PKCE authorization code flow
+- Token refresh handling
+- Protected routes
+- User profile display
 
-## Passkeys & Passwordless Authentication
+### 2. Flask SAML SP
 
-**NEW in 2025**: This project now includes FIDO2/WebAuthn passkey support for phishing-resistant, passwordless authentication.
+Enterprise service provider implementation.
 
-### What are Passkeys?
+```python
+# SAML Configuration
+SAML_SETTINGS = {
+    'sp': {
+        'entityId': 'http://localhost:5000/saml/metadata',
+        'assertionConsumerService': {
+            'url': 'http://localhost:5000/saml/acs'
+        }
+    },
+    'idp': {
+        'entityId': 'https://your-org.okta.com',
+        'singleSignOnService': {
+            'url': 'https://your-org.okta.com/app/saml/sso'
+        }
+    }
+}
+```
 
-Passkeys are a modern authentication method that replaces passwords with cryptographic keys stored on your device. They provide:
+**Features**:
+- SP-initiated SSO
+- Attribute mapping
+- Session management
+- Metadata endpoint
 
-- **Phishing-resistant authentication** - Cannot be stolen or used on fake websites
-- **Passwordless login** - No passwords to remember or manage
-- **Biometric convenience** - Use Touch ID, Face ID, or Windows Hello
-- **Security key support** - Works with YubiKey and other FIDO2 devices
-- **Industry standard** - Built on FIDO2/WebAuthn specifications
+### 3. Node.js Protected API
 
-### Features
+OAuth 2.0 protected backend API.
 
-- ✅ WebAuthn credential registration and management
-- ✅ Browser compatibility detection (Chrome, Firefox, Safari, Edge)
-- ✅ Platform authenticator support (Touch ID, Windows Hello, Face ID)
-- ✅ Security key support (YubiKey, Titan Key, etc.)
-- ✅ Passkey management UI (create, view, delete)
-- ✅ Comprehensive documentation with implementation guide
+```javascript
+// JWT Verification Middleware
+const oktaJwtVerifier = new OktaJwtVerifier({
+  issuer: 'https://your-org.okta.com/oauth2/default',
+  clientId: 'your-client-id'
+});
 
-### Try It Out
+app.use('/api', async (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  const jwt = await oktaJwtVerifier.verifyAccessToken(token, 'api://default');
+  req.user = jwt.claims;
+  next();
+});
+```
 
-1. Navigate to the React OIDC SPA application
-2. Log in with your Okta credentials
-3. Click **"Manage Passkeys"** in the dashboard
-4. Register a new passkey using Touch ID, Windows Hello, or a security key
-5. View and manage your registered passkeys
-
-**See [docs/PASSKEYS.md](docs/PASSKEYS.md) for detailed implementation guide and Okta configuration.**
+---
 
 ## Quick Start
 
 ### Prerequisites
+- Node.js 18+
+- Python 3.9+
+- Okta Developer Account (free)
 
-- **Okta Developer Account** - [Sign up here](https://developer.okta.com/signup/)
-- Node.js 18.x or higher
-- Python 3.9 or higher
-- Git
-
-### 1. Clone the Repository
+### Installation
 
 ```bash
+# Clone repository
 git clone https://github.com/MikeDominic92/okta-sso-hub.git
 cd okta-sso-hub
-```
 
-### 2. Set Up Okta Developer Tenant
-
-1. Create a free developer account at [developer.okta.com](https://developer.okta.com/signup/)
-2. Note your Okta domain (e.g., `dev-12345678.okta.com`)
-3. Create an API token: **Security → API → Tokens → Create Token**
-4. Follow setup guides in `docs/` for each integration type
-
-### 3. Configure Environment Variables
-
-Each application has its own `.env.example` file. Copy and configure:
-
-```bash
 # React OIDC SPA
-cp apps/react-oidc-spa/.env.example apps/react-oidc-spa/.env
-
-# Flask SAML SP
-cp apps/flask-saml-sp/.env.example apps/flask-saml-sp/.env
-
-# Node.js API
-cp apps/node-api/.env.example apps/node-api/.env
-
-# Python Automation
-cp automation/python/.env.example automation/python/.env
-```
-
-### 4. Run Applications
-
-See individual application READMEs for detailed instructions:
-- [React OIDC SPA](apps/react-oidc-spa/README.md)
-- [Flask SAML SP](apps/flask-saml-sp/README.md)
-- [Node.js API](apps/node-api/README.md)
-
-## Applications
-
-### 1. React OIDC SPA (`apps/react-oidc-spa/`)
-
-Modern single-page application using Okta React SDK with Authorization Code Flow + PKCE.
-
-**Features:**
-- Secure authentication without client secrets
-- Protected routes with automatic redirect
-- Token management and refresh
-- User profile display
-
-**Tech Stack:** React 18, TypeScript, @okta/okta-react, React Router
-
-**Quick Start:**
-```bash
 cd apps/react-oidc-spa
 npm install
-npm start  # Runs on http://localhost:3000
-```
+cp .env.example .env
 
-### 2. Flask SAML Service Provider (`apps/flask-saml-sp/`)
-
-Enterprise SSO application demonstrating SAML 2.0 integration with Okta as IdP.
-
-**Features:**
-- SAML SSO and SLO (Single Logout)
-- Attribute mapping from Okta assertions
-- SP metadata generation
-- Session management
-
-**Tech Stack:** Flask, python3-saml
-
-**Quick Start:**
-```bash
-cd apps/flask-saml-sp
+# Flask SAML SP
+cd ../flask-saml-sp
 pip install -r requirements.txt
-python app.py  # Runs on http://localhost:5000
-```
+cp .env.example .env
 
-### 3. Node.js Protected API (`apps/node-api/`)
-
-RESTful API with JWT token validation and scope-based authorization.
-
-**Features:**
-- Okta JWT verification middleware
-- Scope and claims validation
-- Protected endpoints
-- CORS configuration
-
-**Tech Stack:** Node.js, Express, @okta/jwt-verifier
-
-**Quick Start:**
-```bash
-cd apps/node-api
+# Node.js API
+cd ../node-api
 npm install
-npm start  # Runs on http://localhost:8080
+cp .env.example .env
 ```
 
-## Automation
+### Configure Okta
 
-### Python SDK Integration (`automation/python/`)
+1. Create Okta Developer Account
+2. Create OIDC Application (SPA)
+3. Create SAML Application
+4. Configure SCIM provisioning
+5. Update `.env` files with credentials
 
-Comprehensive Okta API automation scripts:
-
-- **`okta_client.py`** - Reusable Okta SDK wrapper
-- **`create_users.py`** - Single and bulk user creation
-- **`bulk_operations.py`** - CSV import, batch updates
-- **`group_management.py`** - Group CRUD operations
-
-**Example:**
-```bash
-cd automation/python
-pip install -r requirements.txt
-python create_users.py --csv users.csv
-```
-
-### Okta Workflows (`automation/workflows/`)
-
-Pre-built workflow templates (JSON format):
-
-- **`new_hire_onboarding.json`** - Automated user provisioning flow
-- **`offboarding.json`** - Deprovisioning and session revocation
-- **`password_reset_notification.json`** - Alert on password changes
-
-Import these into Okta Workflows console or use as reference for API-based automation.
-
-## Deployment Verification
-
-This project is fully functional with working SAML, OIDC, and SCIM integrations. Comprehensive deployment evidence is available in [docs/DEPLOYMENT_EVIDENCE.md](docs/DEPLOYMENT_EVIDENCE.md).
-
-### Quick Verification Commands
+### Run Applications
 
 ```bash
-# 1. Verify Okta org is accessible
-curl "https://dev-YOUR_ORG.okta.com/api/v1/org" \
-  -H "Authorization: SSWS ${OKTA_API_TOKEN}"
-
-# 2. Test React OIDC SPA
+# Terminal 1: React SPA
 cd apps/react-oidc-spa && npm start
-# Open http://localhost:3000 - login redirects to Okta
 
-# 3. Test Flask SAML SP
+# Terminal 2: Flask SAML
 cd apps/flask-saml-sp && python app.py
-# Open http://localhost:5000 - SAML SSO flow
 
-# 4. Test Node.js API with JWT
-curl http://localhost:8080/api/protected/profile \
-  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+# Terminal 3: Node API
+cd apps/node-api && npm start
+
+# Terminal 4: Frontend Dashboard
+cd frontend && npm run dev
 ```
 
-### Sample Evidence Included
+### Access Points
+- **React SPA**: http://localhost:3000
+- **Flask SAML**: http://localhost:5000
+- **Node API**: http://localhost:8080
+- **Dashboard**: http://localhost:3001
 
-- Complete SAML assertion XML (sanitized)
-- Decoded OIDC/JWT tokens with all claims
-- SCIM user provisioning request/response examples
-- Protected API endpoint responses showing JWT validation
-- Test execution results with 96% code coverage
+---
 
-See [Deployment Evidence](docs/DEPLOYMENT_EVIDENCE.md) for complete verification and outputs.
+## v1.1 Workflows Integration Example
 
-## Documentation
+```python
+from src.integrations import OktaWorkflowsConnector, FlowExecutor, EventTrigger
 
-Comprehensive guides in the `docs/` directory:
+# Initialize connector
+workflows = OktaWorkflowsConnector(
+    org_url="https://your-org.okta.com",
+    api_token="your-api-token",
+    mock_mode=True  # For demo
+)
 
-### Setup Guides
-- [Deployment Evidence](docs/DEPLOYMENT_EVIDENCE.md) - Proof of functionality
-- [Okta Initial Setup](docs/OKTA_SETUP.md) - Developer tenant configuration
-- [SAML Integration](docs/SAML_INTEGRATION.md) - Configure SAML app in Okta
-- [OIDC Integration](docs/OIDC_INTEGRATION.md) - Create OIDC application
-- [Passkeys/FIDO2](docs/PASSKEYS.md) - Passwordless authentication with WebAuthn
-- [SCIM Provisioning](docs/SCIM_PROVISIONING.md) - Automated user sync
-- [MFA Policies](docs/MFA_POLICIES.md) - Multi-factor authentication setup
+# List available flows
+flows = workflows.list_flows()
+for flow in flows:
+    print(f"{flow['name']}: {flow['id']}")
 
-### Architecture & Decisions
-- [ADR-001: Okta Integration](docs/decisions/ADR-001-okta-integration.md) - Why Okta for SSO demo
-- [Cost Analysis](docs/COST_ANALYSIS.md) - Free tier breakdown ($0)
-- [Security Best Practices](docs/SECURITY.md) - OAuth/SAML security guidelines
+# Execute a flow
+executor = FlowExecutor(workflows)
+result = await executor.execute_flow(
+    flow_id="flo_abc123",
+    inputs={
+        "userId": "00u123456",
+        "action": "provision_access"
+    }
+)
 
-## Security
-
-This project implements industry-standard security practices:
-
-- **Authorization Code Flow with PKCE** - Eliminates client secret requirement for SPAs
-- **JWT Signature Validation** - Cryptographic verification of tokens
-- **Scope-Based Authorization** - Fine-grained access control
-- **Short-Lived Tokens** - 1-hour access token expiration
-- **Secure Token Storage** - SessionStorage for SPAs, memory for APIs
-- **HTTPS Required** - Redirect URIs enforce TLS
-- **No Secrets in Code** - Environment variables for all sensitive data
-
-See [SECURITY.md](docs/SECURITY.md) for detailed security documentation.
-
-## Testing
-
-Run the test suite:
-
-```bash
-# Python tests
-cd tests
-pytest test_okta_client.py
-pytest test_jwt_verification.py
-
-# Node.js tests (if implemented)
-cd apps/node-api
-npm test
+# Set up event trigger
+trigger = EventTrigger(workflows)
+trigger.on_user_created(callback=provision_new_user)
+trigger.on_group_membership_changed(callback=update_access)
 ```
 
-## Cost Analysis
+---
 
-**Total Cost: $0/month**
+## Use Cases
 
-This project uses Okta's free developer tier:
-- 1,000 monthly active users
-- Unlimited applications
-- All authentication protocols (SAML, OIDC, SCIM)
-- MFA support (Okta Verify, SMS, Email)
-- API access with rate limits
+<table>
+<tr>
+<td width="50%">
 
-See [COST_ANALYSIS.md](docs/COST_ANALYSIS.md) for details.
+### 1. New Employee Onboarding
+
+**Scenario**: New hire starts Monday.
+
+**Automation**:
+1. User created in Okta directory
+2. Workflows trigger fires
+3. SCIM provisions to apps
+4. Group assignments applied
+5. Welcome email sent
+
+**Outcome**: Day 1 productivity.
+
+</td>
+<td width="50%">
+
+### 2. Legacy App SSO
+
+**Scenario**: 10-year-old Java app needs SSO.
+
+**Integration**:
+1. Configure SAML 2.0 app in Okta
+2. Deploy Flask SAML SP as proxy
+3. Map attributes from Okta
+4. Test SP-initiated flow
+
+**Outcome**: Legacy app with modern auth.
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 3. Modern SPA Authentication
+
+**Scenario**: React app needs secure auth.
+
+**Integration**:
+1. Create OIDC SPA in Okta
+2. Implement PKCE flow
+3. Handle token refresh
+4. Protect API with JWT
+
+**Outcome**: Secure modern app.
+
+</td>
+<td width="50%">
+
+### 4. Automated Access Request
+
+**Scenario**: Manager approves access request.
+
+**Workflow**:
+1. Request submitted via portal
+2. Workflows routes to manager
+3. Approval triggers provisioning
+4. User notified automatically
+
+**Outcome**: Minutes not days.
+
+</td>
+</tr>
+</table>
+
+---
 
 ## Project Structure
 
 ```
 okta-sso-hub/
 ├── apps/
-│   ├── react-oidc-spa/      # React SPA with OIDC
-│   ├── flask-saml-sp/       # Flask SAML Service Provider
-│   └── node-api/            # Node.js API with JWT validation
-├── automation/
-│   ├── python/              # Okta SDK automation scripts
-│   └── workflows/           # Okta Workflows JSON templates
-├── scim/                    # SCIM 2.0 server implementation
-├── policies/                # Authentication policy documentation
-├── docs/                    # Comprehensive documentation
-└── tests/                   # Test suites
+│   ├── react-oidc-spa/          # OIDC SPA implementation
+│   │   ├── src/
+│   │   │   ├── components/
+│   │   │   ├── pages/
+│   │   │   └── okta/
+│   │   └── package.json
+│   ├── flask-saml-sp/           # SAML SP implementation
+│   │   ├── app.py
+│   │   ├── saml_config.py
+│   │   └── requirements.txt
+│   └── node-api/                # Protected API
+│       ├── server.js
+│       └── middleware/
+├── src/
+│   └── integrations/            # v1.1: Workflows
+│       ├── okta_workflows_connector.py
+│       ├── flow_executor.py
+│       └── event_trigger.py
+├── automation/                  # Python automation scripts
+│   └── python/
+├── scim/                        # SCIM provisioning
+├── policies/                    # Sign-on policies
+├── frontend/                    # React dashboard
+└── docs/                        # Documentation
 ```
-
-## Contributing
-
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/my-feature`
-3. Commit changes: `git commit -m 'Add some feature'`
-4. Push to branch: `git push origin feature/my-feature`
-5. Submit a pull request
-
-## v1.1 Workflows Integration (December 2025)
-
-**NEW**: Okta Workflows automation integration for event-driven identity lifecycle management.
-
-### What's New in v1.1
-
-The Okta SSO Hub now includes comprehensive integration with Okta Workflows, enabling automated remediation and identity lifecycle orchestration triggered by SSO events.
-
-### Features
-
-- **Okta Workflows API Integration** - Direct connectivity to Okta Workflows API
-- **Automated Remediation** - Trigger workflows based on authentication failures, policy violations, and risk events
-- **Identity Lifecycle Flows** - Automate onboarding, offboarding, and access provisioning
-- **Workflow Execution Monitoring** - Track workflow execution status and results
-- **SSO Event Correlation** - Connect workflow executions with originating SSO events
-- **Mock Demo Mode** - Full-featured demo mode for presentations without live API access
-
-### Quick Start - Workflows Integration
-
-```python
-# Import the integration module
-from src.integrations import OktaWorkflowsConnector, FlowExecutor, EventTrigger
-
-# Initialize connector in mock mode for demo
-connector = OktaWorkflowsConnector(mock_mode=True)
-
-# Execute a workflow flow
-result = await connector.invoke_flow(
-    'flow_new_hire_onboarding',
-    input_data={'user_id': 'user123', 'email': 'user@example.com'}
-)
-
-# Use FlowExecutor for advanced orchestration
-executor = FlowExecutor(mock_mode=True)
-result = await executor.execute_flow(
-    'flow_new_hire_onboarding',
-    wait_for_completion=True
-)
-
-# Set up event-driven triggers
-trigger = EventTrigger(mock_mode=True)
-await trigger.simulate_event('user.lifecycle.create', user_id='user123')
-```
-
-### Available Workflow Templates
-
-The integration includes pre-configured triggers for:
-
-1. **New Hire Onboarding** - Automated user provisioning and access setup
-2. **Employee Offboarding** - Revoke access and archive user data
-3. **MFA Remediation** - Auto-enroll users who fail MFA challenges
-4. **Access Requests** - Process application access requests
-5. **Password Expiry Notifications** - Proactive user notifications
-
-### Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    SSO Events (SAML/OIDC)                       │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │
-                           ▼
-                ┌──────────────────────┐
-                │   Event Trigger      │
-                │  - Rule matching     │
-                │  - Event routing     │
-                └──────────┬───────────┘
-                           │
-                           ▼
-                ┌──────────────────────┐
-                │   Flow Executor      │
-                │  - Orchestration     │
-                │  - Status monitoring │
-                └──────────┬───────────┘
-                           │
-                           ▼
-                ┌──────────────────────┐
-                │ Workflows Connector  │
-                │  - API integration   │
-                │  - Flow invocation   │
-                └──────────┬───────────┘
-                           │
-                           ▼
-                ┌──────────────────────┐
-                │   Okta Workflows     │
-                │  - Remediation flows │
-                │  - Lifecycle flows   │
-                └──────────────────────┘
-```
-
-### Integration Files
-
-- `src/integrations/__init__.py` - Module initialization
-- `src/integrations/okta_workflows_connector.py` - Okta Workflows API connector
-- `src/integrations/flow_executor.py` - Workflow execution orchestrator
-- `src/integrations/event_trigger.py` - SSO event-driven trigger system
-
-### Example: Event-Driven Onboarding
-
-```python
-import asyncio
-from src.integrations import EventTrigger
-
-async def main():
-    # Initialize with your Okta credentials
-    trigger = EventTrigger(mock_mode=False)
-
-    # Process a new user creation event
-    from src.integrations.event_trigger import SSOEvent
-    event = SSOEvent(
-        event_id='evt_001',
-        event_type='user.lifecycle.create',
-        timestamp='2025-12-04T10:00:00Z',
-        user_id='00u123456',
-        user_email='newuser@company.com',
-        metadata={'department': 'Engineering'}
-    )
-
-    # Automatically triggers onboarding workflow
-    results = await trigger.process_event(event)
-
-    for result in results:
-        print(f"Workflow {result.flow_id}: {result.status}")
-        print(f"Execution time: {result.duration_ms}ms")
-
-asyncio.run(main())
-```
-
-See the integration module files for complete API documentation and examples.
-
-## Roadmap
-
-- [x] **v1.1: Okta Workflows Integration** - Event-driven automation (December 2025)
-- [ ] Add Terraform configuration for Okta resources
-- [ ] Implement Angular SPA example
-- [ ] Add Spring Boot SAML application
-- [ ] Create Docker Compose setup
-- [ ] Add Postman collection for API testing
-- [ ] Implement webhook handlers for Okta events
-
-## License
-
-This project is licensed under the MIT License - see [LICENSE](LICENSE) file for details.
-
-## Frontend Dashboard
-
-A modern React/Next.js frontend is available with an Okta Flow aesthetic:
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Frontend will open at `http://localhost:3000`
-
-**Frontend Screenshots:**
-
-| Dashboard | Application Catalog | Federation |
-|-----------|---------------------|------------|
-| ![Dashboard](docs/screenshots/okta_sso_dashboard_01.png) | ![Apps](docs/screenshots/okta_apps_1764620414608.png) | ![Federation](docs/screenshots/okta_federation_1764620443193.png) |
-
-See [Frontend Walkthrough](docs/FRONTEND_WALKTHROUGH.md) for full documentation.
-
-## Acknowledgments
-
-- [Okta Developer Documentation](https://developer.okta.com/docs/)
-- [SAML 2.0 Specification](http://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-tech-overview-2.0.html)
-- [OAuth 2.0 and OIDC](https://oauth.net/2/)
-- [SCIM 2.0 RFC](https://datatracker.ietf.org/doc/html/rfc7644)
-
-## Contact
-
-**Michael Dominic**
-- GitHub: [@MikeDominic92](https://github.com/MikeDominic92)
-- Project: [okta-sso-hub](https://github.com/MikeDominic92/okta-sso-hub)
 
 ---
 
-**Built for IAM Portfolio | Okta Certified Professional Preparation**
+## Skills Demonstrated
+
+| Category | Technologies |
+|----------|-------------|
+| **Identity Federation** | SAML 2.0, OIDC, OAuth 2.0 |
+| **SSO Implementation** | Okta SDK, PKCE, JWT |
+| **Automation** | Okta Workflows, SCIM 2.0 |
+| **Backend** | Python, Node.js, Flask |
+| **Frontend** | React, TypeScript |
+| **Security** | MFA, Token Validation |
+
+---
+
+## Certification Prep
+
+This project helps prepare for:
+
+- **Okta Certified Professional**
+- **Okta Certified Administrator**
+- **Okta Certified Developer**
+
+Key topics covered:
+- Universal Directory
+- Application integration (SAML/OIDC)
+- Sign-on policies
+- MFA configuration
+- Lifecycle management
+- Workflows automation
+
+---
+
+## Roadmap
+
+- [x] **v1.0**: SAML, OIDC, SCIM implementations
+- [x] **v1.1**: Okta Workflows integration
+- [ ] **v1.2**: Advanced MFA policies
+- [ ] **v1.3**: B2B federation (IdP discovery)
+- [ ] **v2.0**: Okta Identity Governance
+
+---
+
+## Author
+
+**Mike Dominic**
+- GitHub: [@MikeDominic92](https://github.com/MikeDominic92)
+- Focus: Okta + Identity Federation
+
+---
+
+<p align="center">
+  <strong>Built for IAM Portfolio and Okta Certification Preparation.</strong>
+  <br/>
+  <sub>This is a portfolio project. Production deployment requires Okta tenant configuration.</sub>
+</p>
