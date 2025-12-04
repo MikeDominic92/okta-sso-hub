@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/screenshots/okta_dashboard_1764620382675.png" alt="Okta SSO Hub" width="800"/>
+  <img src="docs/images/dashboard-new.png" alt="Okta SSO Hub" width="800"/>
 </p>
 
 <h1 align="center">Okta SSO Hub</h1>
@@ -63,7 +63,7 @@ Modern identity federation requires:
 ## The Solution: Okta SSO Hub
 
 <p align="center">
-  <img src="docs/screenshots/okta_apps_1764620414608.png" alt="Application Catalog" width="800"/>
+  <img src="docs/images/applications-new.png" alt="Application Catalog" width="800"/>
 </p>
 
 Complete SSO implementation demonstrating enterprise patterns:
@@ -86,12 +86,12 @@ Complete SSO implementation demonstrating enterprise patterns:
 <table>
 <tr>
 <td align="center" width="33%">
-<img src="docs/screenshots/okta_dashboard_1764620382675.png" alt="Dashboard"/>
+<img src="docs/images/dashboard-new.png" alt="Dashboard"/>
 <br/><strong>SSO Dashboard</strong>
 <br/>Okta Flow aesthetic
 </td>
 <td align="center" width="33%">
-<img src="docs/screenshots/okta_apps_1764620414608.png" alt="Apps"/>
+<img src="docs/images/applications-new.png" alt="Apps"/>
 <br/><strong>Application Catalog</strong>
 <br/>SAML + OIDC apps
 </td>
@@ -108,7 +108,7 @@ Complete SSO implementation demonstrating enterprise patterns:
 <table>
 <tr>
 <td align="center" width="50%">
-<img src="docs/screenshots/okta_security_1764620475111.png" alt="Security"/>
+<img src="docs/images/security-new.png" alt="Security"/>
 <br/><strong>Security Policies</strong>
 <br/>MFA and access rules
 </td>
