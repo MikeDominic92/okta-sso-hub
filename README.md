@@ -384,8 +384,139 @@ Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for gu
 4. Push to branch: `git push origin feature/my-feature`
 5. Submit a pull request
 
+## v1.1 Workflows Integration (December 2025)
+
+**NEW**: Okta Workflows automation integration for event-driven identity lifecycle management.
+
+### What's New in v1.1
+
+The Okta SSO Hub now includes comprehensive integration with Okta Workflows, enabling automated remediation and identity lifecycle orchestration triggered by SSO events.
+
+### Features
+
+- **Okta Workflows API Integration** - Direct connectivity to Okta Workflows API
+- **Automated Remediation** - Trigger workflows based on authentication failures, policy violations, and risk events
+- **Identity Lifecycle Flows** - Automate onboarding, offboarding, and access provisioning
+- **Workflow Execution Monitoring** - Track workflow execution status and results
+- **SSO Event Correlation** - Connect workflow executions with originating SSO events
+- **Mock Demo Mode** - Full-featured demo mode for presentations without live API access
+
+### Quick Start - Workflows Integration
+
+```python
+# Import the integration module
+from src.integrations import OktaWorkflowsConnector, FlowExecutor, EventTrigger
+
+# Initialize connector in mock mode for demo
+connector = OktaWorkflowsConnector(mock_mode=True)
+
+# Execute a workflow flow
+result = await connector.invoke_flow(
+    'flow_new_hire_onboarding',
+    input_data={'user_id': 'user123', 'email': 'user@example.com'}
+)
+
+# Use FlowExecutor for advanced orchestration
+executor = FlowExecutor(mock_mode=True)
+result = await executor.execute_flow(
+    'flow_new_hire_onboarding',
+    wait_for_completion=True
+)
+
+# Set up event-driven triggers
+trigger = EventTrigger(mock_mode=True)
+await trigger.simulate_event('user.lifecycle.create', user_id='user123')
+```
+
+### Available Workflow Templates
+
+The integration includes pre-configured triggers for:
+
+1. **New Hire Onboarding** - Automated user provisioning and access setup
+2. **Employee Offboarding** - Revoke access and archive user data
+3. **MFA Remediation** - Auto-enroll users who fail MFA challenges
+4. **Access Requests** - Process application access requests
+5. **Password Expiry Notifications** - Proactive user notifications
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    SSO Events (SAML/OIDC)                       │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │
+                           ▼
+                ┌──────────────────────┐
+                │   Event Trigger      │
+                │  - Rule matching     │
+                │  - Event routing     │
+                └──────────┬───────────┘
+                           │
+                           ▼
+                ┌──────────────────────┐
+                │   Flow Executor      │
+                │  - Orchestration     │
+                │  - Status monitoring │
+                └──────────┬───────────┘
+                           │
+                           ▼
+                ┌──────────────────────┐
+                │ Workflows Connector  │
+                │  - API integration   │
+                │  - Flow invocation   │
+                └──────────┬───────────┘
+                           │
+                           ▼
+                ┌──────────────────────┐
+                │   Okta Workflows     │
+                │  - Remediation flows │
+                │  - Lifecycle flows   │
+                └──────────────────────┘
+```
+
+### Integration Files
+
+- `src/integrations/__init__.py` - Module initialization
+- `src/integrations/okta_workflows_connector.py` - Okta Workflows API connector
+- `src/integrations/flow_executor.py` - Workflow execution orchestrator
+- `src/integrations/event_trigger.py` - SSO event-driven trigger system
+
+### Example: Event-Driven Onboarding
+
+```python
+import asyncio
+from src.integrations import EventTrigger
+
+async def main():
+    # Initialize with your Okta credentials
+    trigger = EventTrigger(mock_mode=False)
+
+    # Process a new user creation event
+    from src.integrations.event_trigger import SSOEvent
+    event = SSOEvent(
+        event_id='evt_001',
+        event_type='user.lifecycle.create',
+        timestamp='2025-12-04T10:00:00Z',
+        user_id='00u123456',
+        user_email='newuser@company.com',
+        metadata={'department': 'Engineering'}
+    )
+
+    # Automatically triggers onboarding workflow
+    results = await trigger.process_event(event)
+
+    for result in results:
+        print(f"Workflow {result.flow_id}: {result.status}")
+        print(f"Execution time: {result.duration_ms}ms")
+
+asyncio.run(main())
+```
+
+See the integration module files for complete API documentation and examples.
+
 ## Roadmap
 
+- [x] **v1.1: Okta Workflows Integration** - Event-driven automation (December 2025)
 - [ ] Add Terraform configuration for Okta resources
 - [ ] Implement Angular SPA example
 - [ ] Add Spring Boot SAML application
@@ -413,7 +544,7 @@ Frontend will open at `http://localhost:3000`
 
 | Dashboard | Application Catalog | Federation |
 |-----------|---------------------|------------|
-| ![Dashboard](docs/screenshots/okta_dashboard_1764620382675.png) | ![Apps](docs/screenshots/okta_apps_1764620414608.png) | ![Federation](docs/screenshots/okta_federation_1764620443193.png) |
+| ![Dashboard](docs/screenshots/okta_sso_dashboard_01.png) | ![Apps](docs/screenshots/okta_apps_1764620414608.png) | ![Federation](docs/screenshots/okta_federation_1764620443193.png) |
 
 See [Frontend Walkthrough](docs/FRONTEND_WALKTHROUGH.md) for full documentation.
 
