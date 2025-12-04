@@ -96,7 +96,7 @@ Complete SSO implementation demonstrating enterprise patterns:
 <br/>SAML + OIDC apps
 </td>
 <td align="center" width="33%">
-<img src="docs/screenshots/okta_federation_1764620443193.png" alt="Federation"/>
+<img src="docs/images/okta-federation-new.png" alt="Federation"/>
 <br/><strong>Federation Overview</strong>
 <br/>Protocol comparison
 </td>
@@ -113,7 +113,7 @@ Complete SSO implementation demonstrating enterprise patterns:
 <br/>MFA and access rules
 </td>
 <td align="center" width="50%">
-<img src="docs/screenshots/okta_provisioning_1764620505660.png" alt="Provisioning"/>
+<img src="docs/images/okta-provisioning-new.png" alt="Provisioning"/>
 <br/><strong>User Provisioning</strong>
 <br/>SCIM automation
 </td>
