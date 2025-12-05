@@ -598,12 +598,26 @@ Key topics covered:
 
 **Mike Dominic**
 - GitHub: [@MikeDominic92](https://github.com/MikeDominic92)
-- Focus: Okta + Identity Federation
+- Focus: Enterprise IAM, Okta Platform, Identity Lifecycle Automation
+
+---
+
+## Chainguard IT Engineer (Identity/IAM) Alignment
+
+This project demonstrates key competencies for senior IAM engineering roles:
+
+| Requirement | Evidence |
+|-------------|----------|
+| Enterprise Okta platform design | Complete SSO implementation with SAML 2.0, OIDC, SCIM |
+| Identity lifecycle automation | JML workflows in `automation/workflows/` |
+| HRIS integrations | Mock HRIS server in `hris-mock/` |
+| Quarterly access reviews | Access certification in `access-certification/` |
+| SOC 2/ISO 27001 compliance | Compliance framework mapping in workflows |
 
 ---
 
 <p align="center">
-  <strong>Built for IAM Portfolio and Okta Certification Preparation.</strong>
+  <strong>Enterprise Okta SSO Platform with Identity Lifecycle Automation</strong>
   <br/>
-  <sub>This is a portfolio project. Production deployment requires Okta tenant configuration.</sub>
+  <sub>Demonstrates Okta Workflows, HRIS Integration, Access Certification, and JML Automation</sub>
 </p>
