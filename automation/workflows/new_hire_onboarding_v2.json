@@ -1,0 +1,409 @@
+{
+  "name": "New Hire Onboarding (Joiner)",
+  "description": "Comprehensive automated workflow for onboarding new employees with HRIS integration, role-based access provisioning, and compliance tracking",
+  "version": "2.0.0",
+  "trigger": {
+    "type": "user_created",
+    "source": ["hris_sync", "manual", "api"],
+    "filters": {
+      "status": "STAGED",
+      "userType": ["employee", "contractor"]
+    }
+  },
+  "prerequisites": {
+    "requiredAttributes": ["email", "firstName", "lastName", "department", "managerId", "startDate"],
+    "validationRules": [
+      {
+        "field": "email",
+        "rule": "valid_corporate_domain"
+      },
+      {
+        "field": "startDate",
+        "rule": "future_or_today"
+      }
+    ]
+  },
+  "variables": {
+    "userId": "{{event.user.id}}",
+    "userEmail": "{{event.user.profile.email}}",
+    "userName": "{{event.user.profile.firstName}} {{event.user.profile.lastName}}",
+    "firstName": "{{event.user.profile.firstName}}",
+    "department": "{{event.user.profile.department}}",
+    "title": "{{event.user.profile.title}}",
+    "managerId": "{{event.user.profile.managerId}}",
+    "managerEmail": "{{event.user.profile.managerEmail}}",
+    "startDate": "{{event.user.profile.startDate}}",
+    "employeeType": "{{event.user.profile.employeeType}}",
+    "location": "{{event.user.profile.location}}",
+    "costCenter": "{{event.user.profile.costCenter}}"
+  },
+  "steps": [
+    {
+      "id": "1",
+      "name": "Log Onboarding Initiated",
+      "action": "audit.log",
+      "parameters": {
+        "eventType": "ONBOARDING_INITIATED",
+        "userId": "{{variables.userId}}",
+        "severity": "INFO",
+        "details": {
+          "department": "{{variables.department}}",
+          "title": "{{variables.title}}",
+          "startDate": "{{variables.startDate}}",
+          "source": "{{event.source}}"
+        }
+      }
+    },
+    {
+      "id": "2",
+      "name": "Validate Manager Exists",
+      "action": "okta.users.get",
+      "parameters": {
+        "userId": "{{variables.managerId}}"
+      },
+      "outputVariable": "manager",
+      "errorHandling": {
+        "onFailure": "set_default_manager"
+      }
+    },
+    {
+      "id": "3",
+      "name": "Determine Role-Based Access Profile",
+      "action": "rbac.getProfile",
+      "parameters": {
+        "department": "{{variables.department}}",
+        "title": "{{variables.title}}",
+        "employeeType": "{{variables.employeeType}}",
+        "location": "{{variables.location}}"
+      },
+      "outputVariable": "accessProfile"
+    },
+    {
+      "id": "4",
+      "name": "Activate User Account",
+      "action": "okta.users.activate",
+      "parameters": {
+        "userId": "{{variables.userId}}",
+        "sendEmail": true
+      }
+    },
+    {
+      "id": "5",
+      "name": "Add to All Employees Group",
+      "action": "okta.groups.addMember",
+      "parameters": {
+        "groupId": "{{config.allEmployeesGroupId}}",
+        "userId": "{{variables.userId}}"
+      }
+    },
+    {
+      "id": "6",
+      "name": "Add to Department Group",
+      "action": "okta.groups.addMember",
+      "parameters": {
+        "groupId": "{{accessProfile.departmentGroupId}}",
+        "userId": "{{variables.userId}}"
+      }
+    },
+    {
+      "id": "7",
+      "name": "Add to Role-Based Groups",
+      "action": "okta.groups.addUserToMultiple",
+      "parameters": {
+        "userId": "{{variables.userId}}",
+        "groupIds": "{{accessProfile.roleGroupIds}}"
+      },
+      "conditions": {
+        "accessProfile.roleGroupIds.length": {
+          "greaterThan": 0
+        }
+      }
+    },
+    {
+      "id": "8",
+      "name": "Add to Location Group",
+      "action": "okta.groups.addMember",
+      "parameters": {
+        "groupId": "{{accessProfile.locationGroupId}}",
+        "userId": "{{variables.userId}}"
+      },
+      "conditions": {
+        "accessProfile.locationGroupId": {
+          "exists": true
+        }
+      }
+    },
+    {
+      "id": "9",
+      "name": "Assign Core Applications",
+      "action": "okta.apps.assignUser",
+      "parameters": {
+        "userId": "{{variables.userId}}",
+        "appIds": "{{config.coreAppIds}}",
+        "sendNotification": true
+      }
+    },
+    {
+      "id": "10",
+      "name": "Assign Department Applications",
+      "action": "okta.apps.assignUser",
+      "parameters": {
+        "userId": "{{variables.userId}}",
+        "appIds": "{{accessProfile.departmentAppIds}}"
+      },
+      "conditions": {
+        "accessProfile.departmentAppIds.length": {
+          "greaterThan": 0
+        }
+      }
+    },
+    {
+      "id": "11",
+      "name": "Assign Role-Based Applications",
+      "action": "okta.apps.assignUser",
+      "parameters": {
+        "userId": "{{variables.userId}}",
+        "appIds": "{{accessProfile.roleAppIds}}"
+      },
+      "conditions": {
+        "accessProfile.roleAppIds.length": {
+          "greaterThan": 0
+        }
+      }
+    },
+    {
+      "id": "12",
+      "name": "Enroll in MFA",
+      "action": "okta.factors.enrollRequired",
+      "parameters": {
+        "userId": "{{variables.userId}}",
+        "factorTypes": ["okta_verify", "webauthn"],
+        "gracePeriodDays": 7
+      }
+    },
+    {
+      "id": "13",
+      "name": "Provision Downstream Systems",
+      "action": "webhook.callMultiple",
+      "parameters": {
+        "webhooks": [
+          {
+            "name": "Active Directory",
+            "url": "{{config.adProvisioningUrl}}",
+            "method": "POST",
+            "body": {
+              "action": "create",
+              "user": {
+                "email": "{{variables.userEmail}}",
+                "firstName": "{{variables.firstName}}",
+                "lastName": "{{event.user.profile.lastName}}",
+                "department": "{{variables.department}}",
+                "title": "{{variables.title}}",
+                "manager": "{{variables.managerId}}"
+              }
+            }
+          },
+          {
+            "name": "Google Workspace",
+            "url": "{{config.googleProvisioningUrl}}",
+            "method": "POST",
+            "body": {
+              "action": "create",
+              "user": {
+                "email": "{{variables.userEmail}}",
+                "name": "{{variables.userName}}",
+                "department": "{{variables.department}}"
+              }
+            }
+          },
+          {
+            "name": "Slack",
+            "url": "{{config.slackProvisioningUrl}}",
+            "method": "POST",
+            "body": {
+              "action": "invite",
+              "email": "{{variables.userEmail}}",
+              "channels": "{{accessProfile.slackChannels}}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "14",
+      "name": "Create Onboarding Checklist",
+      "action": "ticketing.createTask",
+      "parameters": {
+        "system": "servicenow",
+        "type": "ONBOARDING_CHECKLIST",
+        "assignee": "{{variables.managerId}}",
+        "dueDate": "{{addDays(variables.startDate, 7)}}",
+        "description": "Complete onboarding checklist for new hire: {{variables.userName}}",
+        "checklist": [
+          "Verify all application access is working",
+          "Complete security training",
+          "Review access permissions with employee",
+          "Set up 1:1 meetings",
+          "Assign buddy/mentor"
+        ],
+        "metadata": {
+          "userId": "{{variables.userId}}",
+          "startDate": "{{variables.startDate}}",
+          "department": "{{variables.department}}"
+        }
+      }
+    },
+    {
+      "id": "15",
+      "name": "Schedule 30-Day Access Review",
+      "action": "scheduler.createJob",
+      "parameters": {
+        "jobType": "ACCESS_REVIEW",
+        "scheduledDate": "{{addDays(variables.startDate, 30)}}",
+        "payload": {
+          "userId": "{{variables.userId}}",
+          "reviewType": "new_hire_30_day",
+          "assignee": "{{variables.managerId}}"
+        }
+      }
+    },
+    {
+      "id": "16",
+      "name": "Send Welcome Email to Employee",
+      "action": "email.send",
+      "parameters": {
+        "to": "{{variables.userEmail}}",
+        "subject": "Welcome to the Team, {{variables.firstName}}!",
+        "template": "new_hire_welcome",
+        "variables": {
+          "firstName": "{{variables.firstName}}",
+          "managerName": "{{manager.profile.firstName}}",
+          "startDate": "{{variables.startDate}}",
+          "department": "{{variables.department}}",
+          "appsAssigned": "{{concat(config.coreAppIds, accessProfile.departmentAppIds, accessProfile.roleAppIds)}}",
+          "helpDeskEmail": "{{config.helpDeskEmail}}"
+        }
+      }
+    },
+    {
+      "id": "17",
+      "name": "Notify Manager",
+      "action": "email.send",
+      "parameters": {
+        "to": "{{variables.managerEmail}}",
+        "subject": "New Team Member Onboarded: {{variables.userName}}",
+        "template": "new_hire_manager_notification",
+        "variables": {
+          "employeeName": "{{variables.userName}}",
+          "employeeEmail": "{{variables.userEmail}}",
+          "startDate": "{{variables.startDate}}",
+          "department": "{{variables.department}}",
+          "title": "{{variables.title}}",
+          "accessSummary": {
+            "groups": "{{accessProfile.allGroupNames}}",
+            "apps": "{{accessProfile.allAppNames}}"
+          }
+        }
+      }
+    },
+    {
+      "id": "18",
+      "name": "Notify IT Team",
+      "action": "email.send",
+      "parameters": {
+        "to": "{{config.itTeamEmail}}",
+        "subject": "New User Onboarded: {{variables.userEmail}}",
+        "template": "new_hire_it_notification",
+        "variables": {
+          "userName": "{{variables.userName}}",
+          "userEmail": "{{variables.userEmail}}",
+          "department": "{{variables.department}}",
+          "startDate": "{{variables.startDate}}",
+          "accessProfile": "{{accessProfile.name}}"
+        }
+      }
+    },
+    {
+      "id": "19",
+      "name": "Send SIEM Event",
+      "action": "webhook.call",
+      "parameters": {
+        "url": "{{config.siemWebhookUrl}}",
+        "method": "POST",
+        "headers": {
+          "Authorization": "Bearer {{secrets.siemApiKey}}",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "eventType": "IAM_USER_ONBOARDED",
+          "timestamp": "{{now()}}",
+          "severity": "INFO",
+          "user": {
+            "id": "{{variables.userId}}",
+            "email": "{{variables.userEmail}}",
+            "department": "{{variables.department}}",
+            "employeeType": "{{variables.employeeType}}"
+          },
+          "accessProvisioned": {
+            "groupCount": "{{accessProfile.totalGroups}}",
+            "appCount": "{{accessProfile.totalApps}}",
+            "accessProfileName": "{{accessProfile.name}}"
+          }
+        }
+      }
+    },
+    {
+      "id": "20",
+      "name": "Log Onboarding Complete",
+      "action": "audit.log",
+      "parameters": {
+        "eventType": "ONBOARDING_COMPLETED",
+        "userId": "{{variables.userId}}",
+        "severity": "INFO",
+        "details": {
+          "duration": "{{calculateDuration(event.timestamp)}}",
+          "groupsAssigned": "{{accessProfile.totalGroups}}",
+          "appsAssigned": "{{accessProfile.totalApps}}",
+          "accessProfile": "{{accessProfile.name}}",
+          "mfaEnrolled": true
+        }
+      }
+    }
+  ],
+  "errorHandling": {
+    "onFailure": "halt_and_notify",
+    "notifyEmails": ["iam-team@example.com", "hr-team@example.com"],
+    "retryAttempts": 3,
+    "retryDelay": 60,
+    "escalation": {
+      "afterRetries": "create_incident",
+      "priority": "high",
+      "reason": "Onboarding failure blocks new hire productivity"
+    },
+    "partialSuccess": {
+      "allowed": true,
+      "minimumSteps": ["4", "5", "9", "16"]
+    }
+  },
+  "compliance": {
+    "auditTrail": true,
+    "retentionDays": 2555,
+    "frameworks": ["SOC2", "ISO27001", "NIST"],
+    "controlMappings": {
+      "SOC2": ["CC6.1", "CC6.2", "CC6.3"],
+      "ISO27001": ["A.9.2.1", "A.9.2.2", "A.9.2.3"],
+      "NIST": ["AC-2", "AC-3", "AC-6"]
+    }
+  },
+  "sla": {
+    "maxDuration": 180,
+    "warningThreshold": 120,
+    "escalateOnBreach": true
+  },
+  "metadata": {
+    "author": "Mike Dominic",
+    "createdAt": "2025-12-05",
+    "updatedAt": "2025-12-05",
+    "chainguardRelevance": "Demonstrates comprehensive joiner workflow with HRIS integration, RBAC provisioning, MFA enrollment, and compliance tracking - key requirement for IT Engineer (Identity/IAM) role"
+  }
+}

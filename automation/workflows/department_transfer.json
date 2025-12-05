@@ -1,0 +1,305 @@
+{
+  "name": "Department Transfer (Mover)",
+  "description": "Automated workflow for handling employee department transfers - removes old access, grants new access based on destination department",
+  "version": "1.1.0",
+  "trigger": {
+    "type": "user_profile_updated",
+    "source": "hris_sync",
+    "filters": {
+      "changedAttributes": ["department", "title", "managerId"]
+    }
+  },
+  "prerequisites": {
+    "requiredAttributes": ["department", "managerId"],
+    "validationRules": [
+      {
+        "field": "department",
+        "rule": "not_empty"
+      }
+    ]
+  },
+  "variables": {
+    "previousDepartment": "{{event.previousValue.department}}",
+    "newDepartment": "{{event.currentValue.department}}",
+    "previousManager": "{{event.previousValue.managerId}}",
+    "newManager": "{{event.currentValue.managerId}}",
+    "userId": "{{event.user.id}}",
+    "userEmail": "{{event.user.profile.email}}",
+    "transferDate": "{{event.timestamp}}"
+  },
+  "steps": [
+    {
+      "id": "1",
+      "name": "Log Transfer Event",
+      "action": "audit.log",
+      "parameters": {
+        "eventType": "DEPARTMENT_TRANSFER_INITIATED",
+        "userId": "{{variables.userId}}",
+        "details": {
+          "previousDepartment": "{{variables.previousDepartment}}",
+          "newDepartment": "{{variables.newDepartment}}",
+          "previousManager": "{{variables.previousManager}}",
+          "newManager": "{{variables.newManager}}"
+        }
+      }
+    },
+    {
+      "id": "2",
+      "name": "Get Previous Department Groups",
+      "action": "okta.groups.getByNamingConvention",
+      "parameters": {
+        "pattern": "{{variables.previousDepartment}}_*",
+        "excludePattern": "All_Employees"
+      },
+      "outputVariable": "previousDeptGroups"
+    },
+    {
+      "id": "3",
+      "name": "Get New Department Groups",
+      "action": "okta.groups.getByNamingConvention",
+      "parameters": {
+        "pattern": "{{variables.newDepartment}}_*"
+      },
+      "outputVariable": "newDeptGroups"
+    },
+    {
+      "id": "4",
+      "name": "Remove from Previous Department Groups",
+      "action": "okta.groups.removeUserFromMultiple",
+      "parameters": {
+        "userId": "{{variables.userId}}",
+        "groupIds": "{{previousDeptGroups.ids}}"
+      },
+      "conditions": {
+        "previousDeptGroups.count": {
+          "greaterThan": 0
+        }
+      }
+    },
+    {
+      "id": "5",
+      "name": "Add to New Department Groups",
+      "action": "okta.groups.addUserToMultiple",
+      "parameters": {
+        "userId": "{{variables.userId}}",
+        "groupIds": "{{newDeptGroups.ids}}"
+      },
+      "conditions": {
+        "newDeptGroups.count": {
+          "greaterThan": 0
+        }
+      }
+    },
+    {
+      "id": "6",
+      "name": "Get Apps to Remove",
+      "action": "okta.apps.getByGroup",
+      "parameters": {
+        "groupIds": "{{previousDeptGroups.ids}}",
+        "excludeCommon": true
+      },
+      "outputVariable": "appsToRemove"
+    },
+    {
+      "id": "7",
+      "name": "Get Apps to Add",
+      "action": "okta.apps.getByGroup",
+      "parameters": {
+        "groupIds": "{{newDeptGroups.ids}}"
+      },
+      "outputVariable": "appsToAdd"
+    },
+    {
+      "id": "8",
+      "name": "Calculate Application Delta",
+      "action": "logic.setDifference",
+      "parameters": {
+        "removeSet": "{{appsToRemove.ids}}",
+        "addSet": "{{appsToAdd.ids}}"
+      },
+      "outputVariable": "appDelta"
+    },
+    {
+      "id": "9",
+      "name": "Unassign Removed Applications",
+      "action": "okta.apps.unassignUser",
+      "parameters": {
+        "userId": "{{variables.userId}}",
+        "appIds": "{{appDelta.toRemove}}"
+      },
+      "conditions": {
+        "appDelta.toRemove.length": {
+          "greaterThan": 0
+        }
+      }
+    },
+    {
+      "id": "10",
+      "name": "Assign New Applications",
+      "action": "okta.apps.assignUser",
+      "parameters": {
+        "userId": "{{variables.userId}}",
+        "appIds": "{{appDelta.toAdd}}"
+      },
+      "conditions": {
+        "appDelta.toAdd.length": {
+          "greaterThan": 0
+        }
+      }
+    },
+    {
+      "id": "11",
+      "name": "Update Manager Assignment",
+      "action": "okta.users.updateProfile",
+      "parameters": {
+        "userId": "{{variables.userId}}",
+        "profile": {
+          "manager": "{{variables.newManager}}",
+          "managerId": "{{variables.newManager}}"
+        }
+      },
+      "conditions": {
+        "variables.previousManager": {
+          "notEquals": "{{variables.newManager}}"
+        }
+      }
+    },
+    {
+      "id": "12",
+      "name": "Notify Previous Manager",
+      "action": "email.send",
+      "parameters": {
+        "to": "{{event.previousValue.managerEmail}}",
+        "subject": "Team Member Transfer: {{variables.userEmail}}",
+        "template": "manager_transfer_out_notification",
+        "variables": {
+          "employeeName": "{{event.user.profile.firstName}} {{event.user.profile.lastName}}",
+          "newDepartment": "{{variables.newDepartment}}",
+          "transferDate": "{{variables.transferDate}}"
+        }
+      }
+    },
+    {
+      "id": "13",
+      "name": "Notify New Manager",
+      "action": "email.send",
+      "parameters": {
+        "to": "{{event.currentValue.managerEmail}}",
+        "subject": "New Team Member: {{variables.userEmail}}",
+        "template": "manager_transfer_in_notification",
+        "variables": {
+          "employeeName": "{{event.user.profile.firstName}} {{event.user.profile.lastName}}",
+          "previousDepartment": "{{variables.previousDepartment}}",
+          "transferDate": "{{variables.transferDate}}"
+        }
+      }
+    },
+    {
+      "id": "14",
+      "name": "Notify Employee",
+      "action": "email.send",
+      "parameters": {
+        "to": "{{variables.userEmail}}",
+        "subject": "Your Access Has Been Updated for Department Transfer",
+        "template": "employee_transfer_notification",
+        "variables": {
+          "previousDepartment": "{{variables.previousDepartment}}",
+          "newDepartment": "{{variables.newDepartment}}",
+          "appsAdded": "{{appDelta.toAdd.names}}",
+          "appsRemoved": "{{appDelta.toRemove.names}}"
+        }
+      }
+    },
+    {
+      "id": "15",
+      "name": "Create Access Review Task",
+      "action": "ticketing.createTask",
+      "parameters": {
+        "system": "servicenow",
+        "type": "ACCESS_REVIEW",
+        "assignee": "{{variables.newManager}}",
+        "dueDate": "{{addDays(variables.transferDate, 30)}}",
+        "description": "Review and confirm access for transferred employee: {{variables.userEmail}}",
+        "metadata": {
+          "userId": "{{variables.userId}}",
+          "transferDate": "{{variables.transferDate}}",
+          "previousDepartment": "{{variables.previousDepartment}}",
+          "newDepartment": "{{variables.newDepartment}}"
+        }
+      }
+    },
+    {
+      "id": "16",
+      "name": "Log Transfer Complete",
+      "action": "audit.log",
+      "parameters": {
+        "eventType": "DEPARTMENT_TRANSFER_COMPLETED",
+        "userId": "{{variables.userId}}",
+        "details": {
+          "groupsRemoved": "{{previousDeptGroups.names}}",
+          "groupsAdded": "{{newDeptGroups.names}}",
+          "appsRemoved": "{{appDelta.toRemove.names}}",
+          "appsAdded": "{{appDelta.toAdd.names}}",
+          "duration": "{{calculateDuration(event.timestamp)}}"
+        }
+      }
+    },
+    {
+      "id": "17",
+      "name": "Send SIEM Event",
+      "action": "webhook.call",
+      "parameters": {
+        "url": "{{config.siemWebhookUrl}}",
+        "method": "POST",
+        "headers": {
+          "Authorization": "Bearer {{secrets.siemApiKey}}",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "eventType": "IAM_DEPARTMENT_TRANSFER",
+          "timestamp": "{{variables.transferDate}}",
+          "user": {
+            "id": "{{variables.userId}}",
+            "email": "{{variables.userEmail}}"
+          },
+          "transfer": {
+            "from": "{{variables.previousDepartment}}",
+            "to": "{{variables.newDepartment}}"
+          },
+          "accessChanges": {
+            "groupsRemoved": "{{previousDeptGroups.count}}",
+            "groupsAdded": "{{newDeptGroups.count}}",
+            "appsRemoved": "{{appDelta.toRemove.length}}",
+            "appsAdded": "{{appDelta.toAdd.length}}"
+          }
+        }
+      }
+    }
+  ],
+  "errorHandling": {
+    "onFailure": "rollback_and_notify",
+    "rollbackSteps": ["4", "5", "9", "10"],
+    "notifyEmail": "iam-team@example.com",
+    "retryAttempts": 3,
+    "retryDelay": 60,
+    "escalation": {
+      "afterRetries": "create_incident",
+      "priority": "high"
+    }
+  },
+  "compliance": {
+    "auditTrail": true,
+    "retentionDays": 2555,
+    "frameworks": ["SOC2", "ISO27001", "NIST"],
+    "controlMappings": {
+      "SOC2": ["CC6.1", "CC6.2", "CC6.3"],
+      "ISO27001": ["A.9.2.1", "A.9.2.2", "A.9.2.5"],
+      "NIST": ["AC-2", "AC-3", "AC-6"]
+    }
+  },
+  "metadata": {
+    "author": "Mike Dominic",
+    "createdAt": "2025-12-05",
+    "chainguardRelevance": "Demonstrates identity lifecycle automation using Okta Workflows - key requirement for IT Engineer (Identity/IAM) role"
+  }
+}
