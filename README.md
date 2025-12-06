@@ -22,35 +22,6 @@
 
 ---
 
-## Key Results & Impact
-
-<table>
-<tr>
-<td align="center" width="25%">
-<h3>< 2 min</h3>
-<strong>SCIM Provisioning</strong>
-<br/>87 users synced
-</td>
-<td align="center" width="25%">
-<h3>340ms</h3>
-<strong>SSO Latency</strong>
-<br/>SAML SP response
-</td>
-<td align="center" width="25%">
-<h3>17 Steps</h3>
-<strong>JML Automation</strong>
-<br/>Onboarding workflow
-</td>
-<td align="center" width="25%">
-<h3>Day 1</h3>
-<strong>Productivity</strong>
-<br/>Zero security gaps
-</td>
-</tr>
-</table>
-
----
-
 ## The Problem
 
 <table>
