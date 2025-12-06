@@ -7,6 +7,9 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Okta-Developer-00297a.svg" alt="Okta"/>
+  <img src="https://img.shields.io/badge/SAML-2.0-E34F26.svg" alt="SAML"/>
+  <img src="https://img.shields.io/badge/OIDC-OAuth_2.0-EB5424.svg" alt="OIDC"/>
+  <img src="https://img.shields.io/badge/SCIM-2.0-0052CC.svg" alt="SCIM"/>
   <img src="https://img.shields.io/badge/Node.js-18.x-green.svg" alt="Node.js"/>
   <img src="https://img.shields.io/badge/Python-3.9+-blue.svg" alt="Python"/>
   <img src="https://img.shields.io/badge/React-18.x-61dafb.svg" alt="React"/>
@@ -16,6 +19,35 @@
 <p align="center">
   <strong>Complete SSO implementation with SAML 2.0, OIDC/OAuth 2.0, SCIM provisioning, and Okta Workflows automation</strong>
 </p>
+
+---
+
+## Key Results & Impact
+
+<table>
+<tr>
+<td align="center" width="25%">
+<h3>< 2 min</h3>
+<strong>SCIM Provisioning</strong>
+<br/>87 users synced
+</td>
+<td align="center" width="25%">
+<h3>340ms</h3>
+<strong>SSO Latency</strong>
+<br/>SAML SP response
+</td>
+<td align="center" width="25%">
+<h3>17 Steps</h3>
+<strong>JML Automation</strong>
+<br/>Onboarding workflow
+</td>
+<td align="center" width="25%">
+<h3>Day 1</h3>
+<strong>Productivity</strong>
+<br/>Zero security gaps
+</td>
+</tr>
+</table>
 
 ---
 
