@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/badge/Node.js-18.x-green.svg" alt="Node.js"/>
   <img src="https://img.shields.io/badge/Python-3.9+-blue.svg" alt="Python"/>
   <img src="https://img.shields.io/badge/React-18.x-61dafb.svg" alt="React"/>
-  <img src="https://img.shields.io/badge/version-1.1.0-purple.svg" alt="Version"/>
+  <img src="https://img.shields.io/badge/version-1.2.0-purple.svg" alt="Version"/>
 </p>
 
 <p align="center">
